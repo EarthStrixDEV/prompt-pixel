@@ -1,23 +1,30 @@
+// ─── Core types: รองรับทุกรูปแบบข้อมูลที่ใช้ในโปรเจกต์ ───
+
+export type CategoryType = "image" | "chat" | "business" | "framework" | "video" | "coding" | "research" | "thinking";
+export type SubCategoryType = "nana-banana" | "midjourney" | "flux" | "google-veo" | "gpt-sora";
+export type Difficulty = "beginner" | "intermediate" | "advanced";
+
 export interface Prompt {
   id: string;
   title: string;
+  titleTh?: string;
   description: string;
+  descriptionTh?: string;
   prompt: string;
+  promptTh?: string;
   category: CategoryType;
   subCategory?: SubCategoryType;
   tags: string[];
-  difficulty: "beginner" | "intermediate" | "advanced";
+  difficulty: Difficulty;
   likes: number;
   isNew?: boolean;
   isFeatured?: boolean;
 }
 
-export type CategoryType = "image" | "chat" | "business" | "framework" | "video" | "coding" | "research" | "thinking";
-export type SubCategoryType = "nana-banana" | "midjourney" | "flux" | "google-veo" | "gpt-sora";
-
 export interface SubCategory {
   id: SubCategoryType;
   name: string;
+  nameTh?: string;
   description: string;
   icon: string;
   color: string;
@@ -26,14 +33,18 @@ export interface SubCategory {
   parentCategory: CategoryType;
 }
 
+/** หมวดหมู่หลัก — subCategories เป็น array ของ ID เท่านั้น (ไม่มี sub = ไม่มีหมวดย่อย) */
 export interface Category {
   id: CategoryType;
   name: string;
+  nameTh?: string;
   description: string;
+  descriptionTh?: string;
   icon: string;
-  color: string;
   borderClass: string;
   bgClass: string;
+  color: string;
+  /** หมวดย่อยของ category นี้ (เฉพาะ ID); ไม่มีฟิลด์ = ไม่มีหมวดย่อย */
   subCategories?: SubCategoryType[];
 }
 
@@ -193,12 +204,18 @@ export const getCategoryColor = (cat: CategoryType) => {
   }
 };
 
+/** นำ subCategory IDs ของ category ไป resolve เป็น SubCategory[] */
+export function getSubCategoriesForCategory(category: Category): SubCategory[] {
+  if (!category.subCategories || category.subCategories.length === 0) return [];
+  return subCategories.filter((sc) => category.subCategories!.includes(sc.id));
+}
+
 /** Count prompts belonging to a category */
-export const getPromptCount = (categoryId: string) =>
+export const getPromptCount = (categoryId: CategoryType | string) =>
   prompts.filter((p) => p.category === categoryId).length;
 
 /** Count prompts belonging to a sub-category */
-export const getSubPromptCount = (subCategoryId: string) =>
+export const getSubPromptCount = (subCategoryId: SubCategoryType | string) =>
   prompts.filter((p) => p.subCategory === subCategoryId).length;
 
 /** Total prompt count */

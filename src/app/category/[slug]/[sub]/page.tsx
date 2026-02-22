@@ -5,7 +5,7 @@ import PixelNav from "@/components/PixelNav";
 import PixelFooter from "@/components/PixelFooter";
 import PromptCard from "@/components/PromptCard";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { categories, subCategories, prompts, getCategoryColor } from "@/data/prompts";
+import { categories, subCategories, prompts, getCategoryColor, getSubCategoriesForCategory } from "@/data/prompts";
 import type { CategoryType } from "@/data/prompts";
 import { useParams } from "next/navigation";
 
@@ -43,8 +43,7 @@ export default function SubCategoryPage() {
 
   const catColor = getCategoryColor(category.id);
   const subPrompts = prompts.filter((p) => p.subCategory === subCategory.id);
-  const siblingIds = category.subCategories || [];
-  const siblings = subCategories.filter((sc) => siblingIds.includes(sc.id));
+  const siblings = getSubCategoriesForCategory(category);
 
   return (
     <main className="relative">

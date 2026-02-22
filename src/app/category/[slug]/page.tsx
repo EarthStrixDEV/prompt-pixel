@@ -5,7 +5,7 @@ import PixelNav from "@/components/PixelNav";
 import PixelFooter from "@/components/PixelFooter";
 import PromptCard from "@/components/PromptCard";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { categories, subCategories, prompts, getCategoryColor } from "@/data/prompts";
+import { categories, prompts, getCategoryColor, getSubCategoriesForCategory } from "@/data/prompts";
 import type { CategoryType } from "@/data/prompts";
 import { useParams } from "next/navigation";
 
@@ -41,9 +41,7 @@ export default function CategoryPage() {
 
   const catColor = getCategoryColor(category.id);
   const categoryPrompts = prompts.filter((p) => p.category === category.id);
-  const categorySubs = category.subCategories
-    ? subCategories.filter((sc) => category.subCategories!.includes(sc.id))
-    : [];
+  const categorySubs = getSubCategoriesForCategory(category);
 
   return (
     <main className="relative">

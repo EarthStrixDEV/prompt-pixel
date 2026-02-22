@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { categories, subCategories, getPromptCount, getCategoryColor } from "@/data/prompts";
+import { categories, getPromptCount, getCategoryColor, getSubCategoriesForCategory } from "@/data/prompts";
 import type { CategoryType } from "@/data/prompts";
 
 const catNameKeys: Record<CategoryType, string> = {
@@ -41,9 +41,7 @@ export default function CategorySection() {
             const catColor = getCategoryColor(cat.id);
             const borderColor = catColor.border;
             const textColor = catColor.text;
-            const categorySubs = cat.subCategories
-              ? subCategories.filter((sc) => cat.subCategories!.includes(sc.id))
-              : [];
+            const categorySubs = getSubCategoriesForCategory(cat);
 
             return (
               <Link
