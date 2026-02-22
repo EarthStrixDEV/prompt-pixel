@@ -52,7 +52,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (key: TranslationKey): string => {
-      return translations[locale]?.[key] ?? translations.th[key] ?? key;
+      return translations[locale]?.[key as keyof typeof translations[typeof locale]] ?? translations.th[key as keyof typeof translations.th] ?? key;
     },
     [locale]
   );

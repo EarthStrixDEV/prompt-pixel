@@ -285,7 +285,6 @@ export const translations = {
     developer_visit_link: "Website",
     developer_favorite_ai_title: "Favorite AI",
 
-    nav_quotes: "💬 Quotes",
     quote_title: "Tech Quotes",
     quote_heading: "Tech Quotes",
     quote_subtitle: "Quotes from the tech world to inspire you ♡",
